@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--    this is action method for master page(to create window action)-->
+    <record id="action_hospital_female_patient" model="ir.actions.act_window">
+        <field name="name">Female Patients</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">tree,form</field>
+<!--        to apply default value using context-->
+        <field name="context">{'default':'female'}</field>
+        <!--        to apply domain action-->
+        <field name="domain">[('gender','=','female')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your new patient !
+            </p>
+        </field>
+    </record>
+    <record id="action_hospital_male_patient" model="ir.actions.act_window">
+        <field name="name">Female Patients</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">tree,form</field>
+        <!--        to apply default value using context-->
+        <field name="context">{'default':'male'}</field>
+        <!--        to apply domain action-->
+        <field name="domain">[('gender','=','male')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your new patient !
+            </p>
+        </field>
+    </record>
+
+    <!--    to apply doamin menu -->
+    <menuitem id="menu_female_patient"
+              name="Female  Patient"
+              parent="menu_patient_master"
+              action="action_hospital_female_patient"
+              sequence="10"/>
+
+    <menuitem id="menu_male_patient"
+              name="Male  Patient"
+              parent="menu_patient_master"
+              action="action_hospital_male_patient"
+              sequence="20"/>
+
+</odoo>

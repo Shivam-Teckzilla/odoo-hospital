@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="co_paperformat_qatar" model="report.paperformat">
+        <field name="name">CO Qatar</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">10</field>
+        <field name="margin_right">10</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">5</field>
+        <field name="dpi">90</field>
+    </record>
+    <record id="co_report_qatar" model="ir.actions.report">
+        <field name="name">try</field>
+        <field name="model">hospital.patient</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">hospital.cat_template</field>
+        <field name="report_file">hospital.cat_template</field>
+        <field name="print_report_name">Patient Card</field>
+        <field name="paperformat_id" ref="hospital.co_paperformat_qatar"/>
+        <field name="binding_model_id" ref="hospital.model_hospital_patient"/>
+    </record>
+
+    <!--      main content template  -->
+    <template id="cat_template">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.html_container">
+                <t t-call="hospital.custom_cat_template">
+                    <div class="page">
+                        <!--                          from here you can strt your code   -->
+                        <!--                        <table style="border: 3px solid black !important;margin-top: 300px; width=100%;">-->
+                        <table style="width:100%;margin-top: 150px;border: 1px solid black;">
+                            <tr>
+                                <td width="40%" style="background:pink;">
+                                    <p style="text-align:center;padding-top:10px;">
+                                        <img t-if="o.image" style="max-width:260px;max-height:89px;"
+                                             t-att-src="image_data_uri(o.image)"
+                                             class="float-left" alt="Logo"/>
+                                    </p>
+                                </td>
+                                <td width="60%">
+                                    <table>
+                                        <tr>
+                                            <td colspan="3" class="text-center">
+                                                <span t-field="o.name"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Age:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.age"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Reference:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.ref"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!--      header template  -->
+    <template id="external_layout_standard_cat">
+        <div t-attf-class="header o_company_#{company.id}_layout">
+            <div class="o_boxed_header">
+                <div class="row mb8">
+                    <div class="col-6">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                    </div>
+                    <div class="col-6 text-end mb4">
+                        <div class="mt0 h4" t-if="company.report_header" t-field="company.report_header">Company
+                            tagline
+                        </div>
+                        <div name="company_address" class="float-end mb4">
+                            <ul class="list-unstyled" name="company_address_list">
+                                <li t-if="company.is_company_details_empty">
+                                    <span t-field="company.partner_id"
+                                          t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'>
+                                        <div class="bg-light border-1 rounded h-100 d-flex flex-column align-items-center justify-content-center p-4 w-100 opacity-75 text-muted text-center">
+                                            <strong>Company address block</strong>
+                                            <div>Contains the company address.</div>
+                                        </div>
+                                    </span>
+                                </li>
+                                <li t-else="">
+                                    <span t-field="company.company_details">
+                                        <div class="bg-light border-1 rounded h-100 d-flex flex-column align-items-center justify-content-center p-4 w-100 opacity-75 text-muted text-center">
+                                            <strong>Company details block</strong>
+                                            <div>Contains the company details.</div>
+                                        </div>
+                                    </span>
+                                </li>
+                                <li t-if="not forced_vat"/>
+                                <li t-else="">
+                                    <t t-esc="company.country_id.vat_label or 'Tax ID'">Tax ID</t>:
+                                    <span t-esc="forced_vat">US12345671</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}"
+             t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});"
+             t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <div class="pt-2">
+                <!-- This div ensures that the address is not cropped by the header. -->
+                <t t-call="web.address_layout"/>
+            </div>
+            <t t-out="0"/>
+        </div>
+        <!--  this is for footer part -->
+        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+            <div class="text-center" style="border-top: 1px solid black;">
+                thregd
+            </div>
+        </div>
+    </template>
+
+    <!--      footer template   -->
+    <template id="custom_cat_template">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+            <!--    Multicompany    -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <t t-call="hospital.external_layout_standard_cat">
+            <t t-raw="0"/>
+        </t>
+    </template>
+</odoo>

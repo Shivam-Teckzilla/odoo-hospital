@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="appointment_paperformat" model="report.paperformat">
+        <field name="name">Hospital</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">10</field>
+        <field name="dpi">90</field>
+    </record>
+    <record id="co_report_qatar" model="ir.actions.report">
+        <field name="name">Print</field>
+        <field name="model">hospital.appointment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hospital.appointment_template</field>
+        <field name="report_file">hospital.appointment_template</field>
+        <field name="print_report_name">'Appointment Details'+" " + object.display_name+" "+object.patient_id.name</field>
+        <field name="paperformat_id" ref="hospital.appointment_paperformat"/>
+        <field name="binding_model_id" ref="hospital.model_hospital_appointment"/>
+    </record>
+    <template id="appointment_template">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.html_container">
+                <t t-call="hospital.custom_appointment_template">
+                    <div class="page">
+                        <!--                          from here you can strt your code   -->
+                        <table style="width:100%;margin-top: 150px;border: 1px solid black;border-collapse: collapse;">
+                            <tr>
+                                <th colspan="3" style="text-align: center;background-color: #f2f2f2;">
+                                    Patient Information
+                                </th>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="padding: 8px;">
+                                    <strong>ID:</strong>
+                                    <span t-field="o.patient_id"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%;padding: 8px;">
+                                    <strong>Gender:</strong>
+                                </td>
+                                <td style="width:10%;padding: 8px;">:</td>
+                                <td style="width:60%;padding: 8px;">
+                                    <span t-field="o.gender"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px;">
+                                    <strong>Reference:</strong>
+                                </td>
+                                <td style="padding: 8px;">
+                                    <strong>Booking Date:</strong>
+                                </td>
+                                <td style="padding: 8px;">
+                                    <strong>Appointment Date:</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px;">
+                                    <span t-esc="o.ref"/>
+                                </td>
+                                <td style="padding: 8px;">
+                                    <span t-field="o.booking_date"/>
+                                </td>
+                                <td style="padding: 8px;">
+                                    <span t-field="o.appointment_time"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <t t-if="o.pharmacy_line_ids">
+                            <span style="font-weight: bold; font-size: 18px;">Details</span>
+                            <table name="appointment" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                                <thead>
+                                    <tr style="background-color: #f2f2f2;">
+                                        <th name="th_product" style="padding: 10px; border: 1px solid black;">
+                                            <span>Product</span>
+                                        </th>
+                                        <th name="th_sale" style="padding: 10px; border: 1px solid black;">
+                                            <span>Sale Price</span>
+                                        </th>
+                                        <th name="th_qty" style="padding: 10px; border: 1px solid black;">
+                                            <span>Quantity</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <t t-foreach="o.pharmacy_line_ids" t-as="line">
+                                    <tr style="border: 1px solid black;">
+                                        <td style="padding: 10px; border: 1px solid black;">
+                                            <span t-field="line.product_id.name"/>
+                                        </td>
+                                        <td style="padding: 10px; border: 1px solid black;">
+                                            <span t-field="line.price_unit"/>
+                                        </td>
+                                        <td style="padding: 10px; border: 1px solid black;">
+                                            <span t-field="line.qty"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <template id="external_layout_appointment">
+        <div t-attf-class="header o_company_#{company.id}_layout">
+            <div class="o_boxed_header">
+                <div class="row mb8">
+                    <div class="col-6">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                    </div>
+                    <div class="col-6 text-end mb4">
+                        <div class="mt0 h4" t-if="company.report_header" t-field="company.report_header">Company
+                            tagline
+                        </div>
+                        <div name="company_address" class="float-end mb5">
+                            <ul class="list-unstyled" name="company_address_list">
+                                <li t-if="company.is_company_details_empty">
+                                    <span t-field="company.partner_id"
+                                          t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'>
+                                        <div class="bg-light border-1 rounded h-100 d-flex flex-column align-items-center justify-content-center p-4 w-100 opacity-75 text-muted text-center">
+                                            <strong>Company address block</strong>
+                                            <div>Contains the company address.</div>
+                                        </div>
+                                    </span>
+                                </li>
+                                <li t-else="">
+                                    <span t-field="company.company_details">
+                                        <div class="bg-light border-1 rounded h-100 d-flex flex-column align-items-center justify-content-center p-4 w-100 opacity-75 text-muted text-center">
+                                            <strong>Company details block</strong>
+                                            <div>Contains the company details.</div>
+                                        </div>
+                                    </span>
+                                </li>
+                                <li t-if="not forced_vat"/>
+                                <li t-else="">
+                                    <t t-esc="company.country_id.vat_label or 'Tax ID'">Tax ID</t>:
+                                    <span t-esc="forced_vat">US12345671</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}"
+             t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});"
+             t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <div class="pt-2">
+                <!-- This div ensures that the address is not cropped by the header. -->
+                <t t-call="web.address_layout"/>
+            </div>
+            <t t-out="0"/>
+        </div>
+        <!--  this is for footer part -->
+        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+            <div class="text-center" style="border-top: 1px solid black;">
+                thregd
+            </div>
+        </div>
+    </template>
+    <template id="custom_appointment_template">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+            <!--    Multicompany    -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <t t-call="hospital.external_layout_appointment">
+            <t t-raw="0"/>
+        </t>
+    </template>
+</odoo>

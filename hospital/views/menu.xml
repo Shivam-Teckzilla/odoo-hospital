@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--    this is Root menu -->
+    <!--    to give model icon (web_icon)-->
+    <menuitem id="menu_hospital_root"
+              name="Hospital"
+              web_icon="hospital,static/description/icon.png"
+              sequence="10"/>
+
+    <!--    this is Master menu-->
+    <menuitem id="menu_patient_master"
+              name="Patient Details"
+              parent="menu_hospital_root"
+              sequence="0"/>
+
+    <menuitem id="menu_appointment_master"
+              name="Appointment Details"
+              parent="menu_hospital_root"
+              sequence="10"/>
+
+    <menuitem id="menu_configuration"
+              name="Configurations"
+              parent="menu_hospital_root"
+              sequence="100"/>
+
+    <!--    this is sub menu-->
+
+
+
+
+
+
+    <menuitem id="menu_cancel_appointment"
+              name="Cancellation"
+              action="action_cancel_appointment"
+              parent="menu_appointment_master"
+              sequence="20"/>
+
+
+
+</odoo>

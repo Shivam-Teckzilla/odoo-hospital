@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--    to create form view-->
+    <record id="view_play_ground_form" model="ir.ui.view">
+        <field name="name">play.ground.form</field>
+        <field name="model">play.ground</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="model_id"/>
+                    <field name="code" widget="ace" option="{'mode':'python'}"/>
+                </group>
+                <group>
+                    <div>
+                        <button name="action_execute" string="Execute" type="object" class="btn-primary"/>
+                        <button name="action_clear" string="CLear" class="fa fa-refresh" type="object"/>
+                    </div>
+                </group>
+                <group>
+                    <field name="result" readonly="1"/>
+                </group>
+                <group>
+                    <div style="margin-top: 10px;">
+                        <h3>Help</h3>
+                        <p>Various available functions and variables in the Odoo environment:</p>
+                        <ul>
+                            <li><code>self</code>: Current object on which the action is triggered
+                            </li>
+                             <li><code>self</code>: Current object on which the action is triggered
+                            </li>
+                            <!-- Add more items to the list as needed -->
+                        </ul>
+                    </div>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_playground" model="ir.actions.act_window">
+        <field name="name">Play Ground</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">play.ground</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+    </record>
+
+    <menuitem id="menu_technical" name="Technical" sequence="10" parent="menu_hospital_root">
+        <menuitem id="menu_playground" name="Play Ground" sequence="10" action="action_playground"/>
+    </menuitem>
+</odoo>

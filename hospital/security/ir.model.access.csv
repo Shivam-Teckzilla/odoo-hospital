@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hospital_patient,account.hospital.patient,model_hospital_patient,,1,1,1,1
+access_hospital_appointment,account.hospital.appointment,model_hospital_appointment,,1,1,1,1
+access_hospital_pharmacy_lines,account.hospital.pharmacy.lines,model_hospital_pharmacy_lines,,1,1,1,1
+access_patient_tag,account.patient.tag,model_patient_tag,,1,1,1,1
+
+access_cancel_appointment_wizard,account.cancel.appointment.wizard,model_cancel_appointment_wizard,,1,1,1,1
+
+access_play_ground,account.play.ground,model_play_ground,,1,1,1,1
+
+access_hospital_operation,account.hospital.operation,model_hospital_operation,,1,1,1,1
+

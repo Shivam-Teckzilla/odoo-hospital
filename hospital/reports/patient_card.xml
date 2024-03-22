@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="hospital_paperformat" model="report.paperformat">
+        <field name="name">Hospital</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">10</field>
+        <field name="dpi">90</field>
+    </record>
+    <record id="co_report_qatar" model="ir.actions.report">
+        <field name="name">Certificate of Origin QATAR</field>
+        <field name="model">hospital.patient</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">hospital.report_patient_card</field>
+        <field name="report_file">hospital.report_patient_card</field>
+        <field name="print_report_name">'Certificate of Origin QATAR'</field>
+        <!--        <field name="paperformat_id" ref="hospital.hospital_paperformat"/>-->
+        <field name="binding_model_id" ref="model_hospital_patient"/>
+    </record>
+
+    <template id="report_patient_card">
+        <t t-call="web.html_container">
+
+            <t t-call="hospital.hospital_report_invoice">
+                <div class="page">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-esc="o.name"/>
+
+                    </t>
+
+
+                    <!--                <t t-call="hospital.hospital_report_invoice">-->
+
+                    <!--                <t t-call="web.external_layout">-->
+                    <h1>hello</h1>
+                </div>
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <table class="table table-condensed" style="border: 3px solid black !important;">
+                                <tr>
+                                    <td width="40%" style="background:pink;">
+                                        <p style="text-align:center;padding-top:10px;">
+                                            <img t-if="o.image" style="max-width:260px;max-height:89px;"
+                                                 t-att-src="image_data_uri(o.image)"
+                                                 class="float-left" alt="Logo"/>
+                                        </p>
+                                    </td>
+                                    <td width="60%">
+                                        <table>
+                                            <tr>
+                                                <td colspan="3" class="text-center">
+                                                    <span t-field="o.name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <strong>Age:</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>:</span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.age"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <strong>Reference:</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>:</span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.ref"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <!--                </t>-->
+        </t>
+    </template>
+
+    <template id="external_invoice_layout_qatar">
+        <div t-attf-class="header o_company_#{company.id}_layout">
+            <h1>header</h1>
+        </div>
+
+        <div t-attf-class="footer o_boxed_footer o_company_#{company.id}_layout" style="border-top: 2px solid">
+            <div class="text-center">
+
+                <h1>footer</h1>
+
+            </div>
+        </div>
+    </template>
+    <template id="hospital_report_invoice">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+            <!--    Multicompany    -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <t t-call="hospital.external_invoice_layout_qatar">
+            <t t-raw="0"/>
+        </t>
+    </template>
+</odoo>
