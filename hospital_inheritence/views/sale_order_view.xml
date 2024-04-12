@@ -1,13 +1,121 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <record id="view_order_form" model="ir.ui.view">
+<!--    <record id="view_order_form" model="ir.ui.view">-->
+<!--        <field name="name">sale.order.inherit</field>-->
+<!--        <field name="model">sale.order</field>-->
+<!--        <field name="inherit_id" ref="sale.view_order_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='payment_term_id']" position="after">-->
+<!--                <field name="confirmed_user_id"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="view_order_form_inherit" model="ir.ui.view">
         <field name="name">sale.order.inherit</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='payment_term_id']" position="after">
-                <field name="confirmed_user_id"/>
+<!--            <xpath expr="//field[@name='activity_calendar_event_id']" position="attributes">-->
+<!--                <attribute name="options">{'no_open':True,'no_create':True}</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='activity_type_id']" position="attributes">-->
+<!--                <attribute name="options">{'no_open':True,'no_create':True}</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='activity_user_id']" position="attributes">-->
+<!--                <attribute name="options">{'no_open':True,'no_create':True}</attribute>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='analytic_account_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
             </xpath>
+            <xpath expr="//field[@name='campaign_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='confirmed_user_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+            </xpath>
+<!--            <xpath expr="//field[@name='create_uid']" position="attributes">-->
+<!--                <attribute name="options">{'no_open':True,'no_create':True}</attribute>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='currency_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='fiscal_position_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+            </xpath>
+<!--            <xpath expr="//field[@name='incoterm']" position="attributes">-->
+<!--                <attribute name="options">{'no_open':True,'no_create':True}</attribute>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='journal_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+            </xpath>
+<!--            <xpath expr="//field[@name='l10n_in_reseller_partner_id']" position="attributes">-->
+<!--                <attribute name="options">{'no_open':True,'no_create':True}</attribute>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='medium_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+            </xpath>
+<!--            <xpath expr="//field[@name='opportunity_id']" position="attributes">-->
+<!--                <attribute name="options">{'no_open':True,'no_create':True}</attribute>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_invoice_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='pricelist_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+            </xpath>
+<!--            <xpath expr="//field[@name='procurement_group_id']" position="attributes">-->
+<!--                <attribute name="options">{'no_open':True,'no_create':True}</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='project_id']" position="attributes">-->
+<!--                <attribute name="options">{'no_open':True,'no_create':True}</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='sale_order_template_id']" position="attributes">-->
+<!--                <attribute name="options">{'no_open':True,'no_create':True}</attribute>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='source_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='tax_country_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='team_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+            </xpath>
+<!--            <xpath expr="//field[@name='warehouse_id']" position="attributes">-->
+<!--                <attribute name="options">{'no_open':True,'no_create':True}</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='write_uid']" position="attributes">-->
+<!--                <attribute name="options">{'no_open':True,'no_create':True}</attribute>-->
+<!--            </xpath>-->
+
         </field>
     </record>
+    <!--    <record id="timesheet_view_grid_by_employee_readonly" model="ir.ui.view">-->
+    <!--            <field name="name">account.analytic.line.grid.employee.readonly</field>-->
+    <!--            <field name="model">account.analytic.line</field>-->
+    <!--            <field name="inherit_id" ref="timesheet_grid.timesheet_view_grid_by_employee"/>-->
+    <!--            <field name="mode">primary</field>-->
+    <!--            <field name="arch" type="xml">-->
+    <!--                <xpath expr="/grid" position="attributes">-->
+    <!--                    <attribute name="create">false</attribute>-->
+    <!--                    <attribute name="edit">false</attribute>-->
+    <!--                </xpath>-->
+    <!--            </field>-->
+    <!--        </record>-->
 </odoo>

@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="jcmh_paperformat" model="report.paperformat">
+        <field name="name">Hospital</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">20</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">15</field>
+        <field name="dpi">90</field>
+    </record>
+    <record id="co_report_qatar" model="ir.actions.report">
+        <field name="name">Print</field>
+        <field name="model">hospital.appointment</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">hospital.delivery_receipt_template</field>
+        <field name="report_file">hospital.delivery_receipt_template</field>
+        <field name="print_report_name">'Appointment Details'+" " + object.display_name+" "+object.patient_id.name
+        </field>
+        <field name="paperformat_id" ref="hospital.jcmh_paperformat"/>
+        <field name="binding_model_id" ref="hospital.model_hospital_appointment"/>
+    </record>
+
+    <template id="delivery_receipt_template">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.html_container">
+                <t t-call="hospital.custom_delivery_receipt_template">
+                    <div class="page">
+                        <table style="width: 100%; border-collapse: collapse;margin-top:10px">
+                            <tr>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                                    <img src="data:image/png;base64,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"
+                                         style="width: 150px; height: 125px; border: 1px solid black; display: inline-block;margin-bottom: -185px;"/>
+                                </td>
+
+                                <td style=" width:
+                                    25%; border: 1px solid black; padding: 3px; text-align: left;">
+                                    <p style="margin: 0;">JCM HealthTech LLP
+                                        <p>
+                                            Address Line 1
+                                        </p>
+                                        <p>
+                                            Address Line 2,
+                                        </p>
+                                        <table style="width: 100%;">
+                                            <tr>
+                                                <td style="width: 50%; border: 1px solid white;">
+                                                    <strong>City :</strong>
+                                                    <br/>
+                                                    <span>Mumbai</span>
+                                                </td>
+                                                <td style="width: 50%; border: 1px solid white;">
+                                                    <strong>Pincode :</strong>
+                                                    <span>400072</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 50%; border: 1px solid white;">
+                                                    <strong>State :</strong>
+                                                    <span>Maharashtra</span>
+                                                </td>
+                                                <td style="width: 50%; border: 1px solid white;">
+                                                    <strong>Country :</strong>
+                                                    <span>India</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black; padding:0; height:0;">
+                                    <table style="border-collapse: collapse; width: 100%; height: 100%;">
+                                        <tr>
+                                            <td style="width:50%; border-right: 1px solid black; border-bottom: 1px solid black;  padding: 5px; ">
+                                                <b>Invoice No.</b>
+                                                <br/>
+                                                <span>RINV/2024/00012</span>
+                                            </td>
+                                            <td style="width:50%; border-left: 1px solid black;border-bottom: 1px solid black;  padding: 5px;">
+                                                <b>Dated</b>
+                                                <br/>
+                                                <span>14/03/2024</span>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td style="width:50%; border-right: 1px solid black;  padding: 5px;">
+                                                <b>Reference</b>
+                                                <br/>
+                                                <span>INV/2024/00012</span>
+                                            </td>
+                                            <td style="width:50%; border-left: 1px solid black;  padding: 5px;">
+                                                <b>Payment Terms</b>
+                                                <br/>
+                                                <span>30 Days</span>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2" style="border: 1px solid black; padding: 5px;">
+                                    <p>Buyer (Bill to)</p>
+                                    <strong>Customer Name:</strong>
+                                    <span>Shivam Gorad</span>
+                                    <br/>
+                                    <strong>Address:</strong>
+                                    <span>asdfghjk</span>
+                                    <span>xzxcvbnm</span>
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="width: 50%; border: 1px solid white;">
+                                                <strong>Country:</strong>
+                                                <span>India</span>
+                                            </td>
+                                            <td style="width: 50%;border: 1px solid white;">
+                                                <strong>State :</strong>
+                                                <span>Maharashtra</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 50%;border: 1px solid white;">
+                                                <strong>City:</strong>
+                                                <span>Mumbai</span>
+                                            </td>
+                                            <td style="width: 50%; border: 1px solid white;">
+                                                <strong>Pincode :</strong>
+                                                <span>40072</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                                <td style="border: 1px solid black; padding:0; height:0;">
+                                    <table style="border-collapse: collapse; width: 100%; height: 100%;">
+                                        <tr>
+                                            <td style="width:50%;padding: 5px;border-top: 1px solid white; ">
+                                                <b>Delivery Document No</b>
+                                                <br/>
+                                                <span>WH/OUT/00017</span>
+                                            </td>
+
+                                            <td style="width:50%;padding: 5px;;border-top: 1px solid white;">
+                                                <b>Delivery Dated</b>
+                                                <br/>
+                                                <span>14/03/2024</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:50%; border-bottom:1px solid white;  padding: 5px;">
+                                                <b>Buyer's Order No</b>
+                                                <br/>
+                                                <span>PO23/3/985</span>
+                                            </td>
+                                            <td style="width:50%;padding: 5px;">
+                                                <b>Dated</b>
+                                                <br/>
+                                                <span>05/03/2024</span>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="border: 1px solid black; padding: 5px;">
+                                    <p>Consignee (Ship to)</p>
+                                    <strong>Customer Name:</strong>
+                                    <span>Shivam Gorad</span>
+                                    <br/>
+                                    <strong>Address:</strong>
+                                    <span>asdfghjk</span>
+                                    <span>xzxcvbnm</span>
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="width: 50%; border:1px solid white">
+                                                <strong>Country:</strong>
+                                                <span>India</span>
+                                            </td>
+                                            <td style="width: 50%;border:1px solid white">
+                                                <strong>State :</strong>
+                                                <span>Maharashtra</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 50%; border:1px solid white">
+                                                <strong>City:</strong>
+                                                <span>Mumbai</span>
+                                            </td>
+                                            <td style="width: 50%;border:1px solid white">
+                                                <strong>Pincode :</strong>
+                                                <span>40072</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px;">
+                                    <b>Terms of Delivery</b>
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="width: 100%;border-collapse: collapse;margin-top:10px">
+                            <colgroup>
+                                <col style="width: 5%"/>
+                                <col style="width: 40%"/>
+                                <col style="width: 15%"/>
+                                <col style="width: 10%"/>
+                                <col style="width: 10%"/>
+                                <col style="width: 10%"/>
+                                <col style="width: 10%"/>
+                                <col style="width: 10%"/>
+                            </colgroup>
+                            <tr>
+                                <td style="border: 1px solid black; text-align: center; padding:5px;">Sr No:</td>
+                                <td style="border: 1px solid black; text-align: center; padding:5px;">Description:
+                                </td>
+                                <td style="border: 1px solid black; text-align: center; padding:5px;">MRP Rate:</td>
+                                <td style="border: 1px solid black; text-align: center; padding:5px;">Qty:</td>
+                                <td style="border: 1px solid black; text-align: center; padding:5px;">Units:</td>
+                                <td style="border: 1px solid black; text-align: center; padding:5px;">Rate:</td>
+                                <td style="border: 1px solid black; text-align: center; padding:5px;">Disc:</td>
+                                <td style="border: 1px solid black; text-align: center; padding:5px;">Amount:</td>
+                            </tr>
+
+                            <tr>
+                                <td style="border: 1px solid black; padding-left: 3px;">1</td>
+                                <td style="border: 1px solid black;padding-left: 3px;">
+                                    <strong>CUVETTE CARTRIDGE 12000 (D828) [10445042]</strong>
+                                    <p style="margin: 0;">Lot/Serial No: 43645</p>
+                                    <p style="margin: 0;">Expiry Dt: 27/10/2024</p>
+                                    <p style="margin: 0;">HSN/SAC: 39269099</p>
+                                    <p style="margin: 0;">GST 18%</p>
+                                </td>
+                                <td style="border: 1px solid black;text-align: right;">15,000.00</td>
+                                <td style="border: 1px solid black;text-align: center;">1.00</td>
+                                <td style="border: 1px solid black;text-align: center;">Qty</td>
+                                <td style="border: 1px solid black;text-align: right;">10,105.00</td>
+                                <td style="border: 1px solid black;"></td>
+                                <td style="border: 1px solid black;text-align: right;">10,105.00</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black;"></td>
+                                <td style="border: 1px solid black;">
+                                    <strong></strong>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p style="text-align: right;">
+                                        <strong style="padding-right: 3px;">15,857.40</strong>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black;"></td>
+                                <td style="border: 1px solid black;">
+                                    <strong>
+                                        <p style="text-align: right;padding-right: 3px;">GST</p>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p style="text-align: right;">
+                                        <strong style="padding-right: 3px;">1,254.59</strong>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black;"></td>
+                                <td style="border: 1px solid black;">
+                                    <strong>
+                                        <p style="text-align: right;padding-right: 3px;">CGST</p>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p style="text-align: right;">
+                                        <strong style="padding-right: 3px;">1,254.59</strong>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black;"></td>
+                                <td style="border: 1px solid black;">
+                                    <strong>
+                                        <p style="text-align: right;padding-right: 3px;">Total</p>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p></p>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <p style="text-align: right;">
+                                        <strong style="padding-right: 3px;">18,366.58</strong>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                        <div style="text-align:right;border: 1px solid black;padding-right: 5px;margin-top:10px">
+                            <p>
+                                <strong>Total amount in words:</strong>
+                            </p>
+                            <p>Eighteen Thousand Three Hundred And Sixty-Six Rupees and Fifty-Eight Paise</p>
+                        </div>
+                    </div>
+                    <table style="width: 100%; border-collapse: collapse;margin-top:40px">
+                        <tr>
+                            <th style="border: 1px solid black;text-align: center;padding: 5px;" rowspan="2">HSN/SAC
+                            </th>
+                            <th style="border: 1px solid black;text-align: center;padding: 5px;" rowspan="2">Taxable
+                                Value
+                            </th>
+                            <th style="border: 1px solid black;text-align: center;padding: 5px;" colspan="2">State
+                                Tax
+                            </th>
+                            <th style="border: 1px solid black;text-align: center;padding: 5px;" colspan="2">Central
+                                Tax
+                            </th>
+                            <th style="border: 1px solid black;text-align: center;padding: 5px;">Total Tax Amount
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="border: 1px solid black; text-align: center;padding: 5px;">Rate</th>
+                            <th style="border: 1px solid black; text-align: center;padding: 5px;">Amount</th>
+                            <th style="border: 1px solid black; text-align: center;padding: 5px;">Rate</th>
+                            <th style="border: 1px solid black; text-align: center;padding: 5px;">Amount</th>
+                            <th style="border: 1px solid black; text-align: center;padding: 5px;"></th>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; padding: 5px;">39269099</td>
+                            <td style="border: 1px solid black; text-align: right; padding: 5px;">10105.00</td>
+                            <td style="border: 1px solid black; text-align: right; padding: 5px;">9%</td>
+                            <td style="border: 1px solid black; text-align: right; padding: 5px;">909.45</td>
+                            <td style="border: 1px solid black; text-align: right; padding: 5px;">9%</td>
+                            <td style="border: 1px solid black; text-align: right; padding: 5px;">909.45</td>
+                            <td style="border: 1px solid black; text-align: right; padding: 5px;">1818.90</td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid black; padding: 5px;">38220090</td>
+                            <td style="border: 1px solid black;text-align: right;padding: 5px;">5,752.40</td>
+                            <td style="border: 1px solid black;text-align: right;padding: 5px;">6%</td>
+                            <td style="border: 1px solid black;text-align: right;padding: 5px;">345.14</td>
+                            <td style="border: 1px solid black;text-align: right;padding: 5px;">6%</td>
+                            <td style="border: 1px solid black;text-align: right;padding: 5px;">345.14</td>
+                            <td style="border: 1px solid black;text-align: right;padding: 5px;">690.28</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; padding: 5px;">
+                                <strong>Total</strong>
+                            </td>
+                            <td style="border: 1px solid black;text-align: right; padding: 5px;">
+                                <strong>15,857.40</strong>
+                            </td>
+                            <td style="border: 1px solid black;text-align: right;"></td>
+                            <td style="border: 1px solid black;text-align: right;padding: 5px;">
+                                <strong>1,254.59</strong>
+                            </td>
+                            <td style="border: 1px solid black;text-align: right;"></td>
+                            <td style="border: 1px solid black;text-align: right;padding: 5px;">
+                                <strong>1,254.59</strong>
+                            </td>
+                            <td style="border: 1px solid black;text-align: right;">
+                                <strong style="padding: 5px;">2,509.18</strong>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid black; margin-top:30px">
+                        <tr>
+                            <td style="border: 1px solid black; text-align: center;">
+                                <strong>Declaration:</strong>
+                            </td>
+                            <td style="width: 45%;border: 1px solid black; text-align: center;">
+                                <strong>Banking Details for NEFT / RTGS payments</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; vertical-align: top;">
+                                <P style="padding-left: 5px;">
+                                    Drug License No:
+                                </P>
+                                <br/>
+                                <br/>
+                                <strong style="padding-left: 5px;">WARRANTY:</strong>
+                                <p style="padding-left: 5px;">I/We hereby certify that goods mentioned in this
+                                    invoice
+                                    is/are warranted to be of the
+                                    nature and quality which it/these purport/purports to be.
+                                </p>
+                            </td>
+                            <td style="border: 1px solid black; vertical-align: top;">
+                                <h5 style="padding-left: 5px;">Bank Name:</h5>
+                                <br/>
+                                <br/>
+                                <h5 style="padding-left: 5px;">Branch:</h5>
+                                <br/>
+                                <br/>
+                                <h5 style="padding-left: 5px;">A/c No:</h5>
+                                <br/>
+                                <br/>
+                                <h5 style="padding-left: 5px;">IFSC Code:</h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; text-align: center;">
+                                <strong>Received Goods in Condition</strong>
+                            </td>
+                            <td style="border: 1px solid black; text-align: center;">for JCM HealthTech LLP</td>
+                        </tr>
+                    </table>
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="external_layout_delivery_receipt">
+        <!-- First section: header -->
+        <div t-attf-class="header o_company_#{company.id}_layout">
+            <div class="o_boxed_header">
+                <table style="width: 100%; border-collapse: collapse; border: 1px solid black;">
+                    <tr>
+                        <td style="border: 1px solid black; text-align: center;padding: 5px;color: black;">Delivery
+                            Receipt
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black; text-align: center;padding: 5px;color: black;" colspan="3">
+                            Original for
+                            Recipient /
+                            Duplicate for Transporter / Triplicate for Supplier
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Second section: content -->
+        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}"
+             t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});"
+             t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <div class="pt-2">
+                <!-- This div ensures that the address is not cropped by the header. -->
+                <t t-call="web.address_layout"/>
+            </div>
+            <t t-out="0"/>
+        </div>
+
+        <!-- Third section: footer -->
+        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+            <div class="text-center" style="border-top: 1px solid black;">
+            </div>
+        </div>
+    </template>
+
+    <template id="custom_delivery_receipt_template">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+            <!--    Multicompany    -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <t t-call="hospital.external_layout_delivery_receipt">
+            <t t-raw="0"/>
+        </t>
+    </template>
+
+</odoo>

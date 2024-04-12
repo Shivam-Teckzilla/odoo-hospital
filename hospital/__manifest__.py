@@ -6,7 +6,7 @@
     'description': """Hospital Management System""",
     'category': 'Education',
     'website': 'https://www.odoo.com/app/invoicing',
-    'depends': ['base', 'mail', 'product'],
+    'depends': ['base', 'mail', 'product','hospital_inheritence'],
     'data': [
         'security/ir.model.access.csv',
         'wizard/cancel_appointment_view.xml',
@@ -16,13 +16,14 @@
         'views/menu.xml',
         'views/patient_view.xml',
         'views/gender_patient_view.xml',
-        'views/appointment_patient_view.xml',
         'views/patient_tag_view.xml',
         'views/playground_view.xml',
         'views/res_config_settings_views.xml',
         'views/operation_view.xml',
-        'reports/templet.xml',
-        'reports/appointment.xml',
+        'views/appointment_patient_view.xml',
+        # 'reports/templet.xml',
+        # 'reports/appointment.xml',
+        'reports/jcmh.xml',
 
         # 'reports/patient_card.xml',
 

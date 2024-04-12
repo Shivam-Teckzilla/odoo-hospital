@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    <record model="ir.module.category" id="module_category_product_cat">-->
+<!--        <field name="name">Product Catalog</field>-->
+<!--        <field name="description">Category for Product Catalog</field>-->
+<!--    </record>-->
+
+    <record id="group_sale_manager" model="res.groups">
+        <field name="name">Inventory Manager</field>
+        <field name="category_id" ref="module_category_product_cat"/>
+    </record>
+
+    <record id="product_cat_inventory_manager_rule" model="ir.rule">
+        <field name="name">Change Quantity Inventory Manager</field>
+        <field name="model_id" ref="product_cat.model_products_cat_product"/>
+        <field name="groups" eval="[(4, ref('product_cat.group_sale_manager'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="perm_write" eval="False"/>
+
+        <field name="perm_create" eval="False"/>
+    </record>
+
+
+</odoo>

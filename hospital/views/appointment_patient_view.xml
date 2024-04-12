@@ -20,9 +20,7 @@
         <field name="binding_view_types">list</field>
         <field name="state">code</field>
         <field name="code">
-            for record in records:
-                if record.state == 'in_consultation':
-                    record.action_done()
+            [record.action_done() for record in records if record.state == 'in_consultation']
         </field>
     </record>
     <!--to create activity view-->
@@ -62,12 +60,12 @@
                     <button name="%(hospital.action_cancel_appointment)d" string="Cancel" type="action"
                             context="{'default_appointment_id': active_id, 'default_reason': 'test','hide_appointment':1}"
                             class="oe_highlight" invisible="state in 'draft','in_consultation'"/>
-                    <!--                    <button name="action_cancel" string="Cancel" type="object"-->
-                    <!--                            class="oe_highlight" invisible="state in 'draft','in_consultation'"/>-->
+<!--                    <button name="action_cancel" string="Cancel" type="object"-->
+<!--                            class="oe_highlight" invisible="state in 'draft','in_consultation'"/>-->
                     <button name="action_draft" string="Reset To Draft" type="object"
                             class="oe_highlight" invisible="state != 'cancel'"/>
                     <button name="action_share_whatsapp" type="object"
-                            class="oe_highlight" icon="fa-brands fa-whatsapp"/>
+                            class="oe_highlight" icon="fa-brands fa-whatsapp" title="Share via WhatsApp"/>
 
                     <field name="state" widget="statusbar" nolabel="1"
                            statusbar_visible="draft,in_consultation,done"/>
@@ -212,7 +210,7 @@
     <menuitem id="menu_appointment"
               name="Appointment"
               parent="menu_appointment_master"
-              action="action_hospital_appointment"
+              action="hospital.action_hospital_appointment"
               sequence="20"/>
 
 </odoo>
